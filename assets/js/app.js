@@ -9,7 +9,7 @@ class Products{
 }
 // Global Variables
 class Variables{
-    constructor(container, product, form, result, tableResults){
+    constructor(){
         this.container = [];
         this.product = {};
         this.form = document.mainForm;
