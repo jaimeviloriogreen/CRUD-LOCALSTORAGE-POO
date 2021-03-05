@@ -1,0 +1,62 @@
+:root{
+    --color1: #ffffff;
+    --color2: #000000;
+    --color3: #d9dcdf;
+    --color4: #3D7068;
+
+    --font1: 'Comfortaa', cursive;
+    --font2: 'Maven Pro', sans-serif;
+    --font3: 'Raleway', sans-serif;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html{
+    font-size: 16px;
+}
+body{
+    font-family: var(--font1);
+}
+.container{
+    width: 90%;
+    max-width: 62.5rem;
+    margin: 6.25rem auto;
+}
+
+input[type="text"]{
+    width: 100%;
+    font-size: 1rem;
+    padding: .125rem .5rem;
+}
+input[type="submit"]{
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    padding: .25rem;
+    color: var(--color1);
+}
+.add{
+    background-color: #9c2e2e;
+}
+.update{
+    background-color: #2e489c;
+}
+td,th{
+    padding: .25rem;
+}
+.result{
+    width: 90%;
+    max-width: 62.5rem;
+    margin: 6.25rem auto;
+}
+.action{
+    display: flex;
+    justify-content: space-around;
+}
+i{
+    font-size: 1.25rem;
+    cursor: pointer;
+}
