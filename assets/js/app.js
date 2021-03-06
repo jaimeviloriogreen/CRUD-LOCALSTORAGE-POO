@@ -7,14 +7,64 @@ class Products{
         this.quantity = quantity;
     }
 }
+
+// Form
+class MainForm{
+    constructor(){
+        this.mainForm = document.mainForm;
+        this.name = this.mainForm.name;
+        this.price = this.mainForm.price;
+        this.quantity = this.mainForm.quantity;
+        this.submit = this.mainForm.submit;
+    }
+    // Name
+    get nameValue(){
+        return this.name.value;
+    }
+    set nameValue(value){
+        this.name.value = value;
+    }
+    // Price
+    get priceValue(){
+        return this.price.value;
+    }
+    set priceValue(value){
+        this.price.value = value;
+    }
+    // Quantity
+    get quantityValue(){
+        return this.quantity.value;
+    }
+    set quantityValue(value){
+        this.quantity.value = value;
+    }
+    // Submit Input
+    get submitValue(){
+        return this.submit.value;
+    }
+    set submitValue(value){
+        this.submit.value = value;
+    }
+}
+
+// Instance Form
+const form = new MainForm();
+
+// Table
+class Table{
+    constructor(){
+        this.tableBody = document.querySelector('.tableBody');
+        this.tableResults = document.querySelector(".tableResults");
+    }
+}
+// Instance of Table
+const table = new Table();
+
 // Global Variables
 class Variables{
     constructor(){
         this.container = [];
         this.product = {};
-        this.form = document.mainForm;
-        this.result = document.querySelector('.tableBody');
-        this.tableResults = document.querySelector(".tableResults");
     }
 }  
 // Instance of Global Variables
@@ -28,16 +78,16 @@ class UserInterface{
     }
 // Get and Show products
     static getProduct(){
-        vars.result.innerHTML = '';
+        table.tableBody.innerHTML = '';
         vars.container = JSON.parse(localStorage.getItem('data'));
 
         if(vars.container === null){
             vars.container = [];
-            vars.tableResults.setAttribute("hidden", "hidden")
+            table.tableResults.setAttribute("hidden", "hidden")
         }else{
             for(let i of vars.container){
-                vars.tableResults.removeAttribute("hidden");
-                vars.result.innerHTML+= 
+                table.tableResults.removeAttribute("hidden");
+                table.tableBody.innerHTML+= 
             `
                  <tr>
                         <td>${i.name}</td>
@@ -71,16 +121,17 @@ class UserInterface{
     }
 // Edit inputs values
     static editAction(name, price, quantity){
-        vars.form.name.value = name;
-        vars.form.price.value = price;
-        vars.form.quantity.value = quantity;
+        form.nameValue = name;
+        form.priceValue = price;
+        form.quantityValue = quantity;
 
-        vars.form.submit.value = "Update";
-        vars.form.submit.classList.remove("add");
-        vars.form.submit.classList.add("update");
+        form.submitValue = "Update";
+        form.submit.classList.remove("add");
+        form.submit.classList.add("update");
     }
 // Edit and add prodtucts with new name...
     static editProduct(newName, newPrice, newQuantity){
+        //  get index of edit product
         let index = vars.container.findIndex((container)=>{
             if(container.name === vars.product.name){
                 if(container.price === vars.product.price){
@@ -90,7 +141,7 @@ class UserInterface{
                 }
             }
         });
-
+        // Update new product
         vars.container[index].name = newName;
         vars.container[index].price = newPrice;
         vars.container[index].quantity = newQuantity;
@@ -101,7 +152,7 @@ class UserInterface{
     }
 }
 // Exports
-export{Products, vars, UserInterface}
+export{Products, vars, UserInterface, form, table}
 
 
 
