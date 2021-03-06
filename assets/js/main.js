@@ -24,11 +24,10 @@ app.form.mainForm.addEventListener("submit", (e)=>{
         const products = new app.Products(name,price,quantity);
 
        if(app.form.submitValue === "Add"){
-            app.vars.container.push(products);
+            app.container.push(products);
+            
             app.UserInterface.saveProduct();
-
             app.UserInterface.getProduct();
-        
             app.form.mainForm.reset();
 
        }else if(app.form.submitValue === "Update"){
@@ -70,15 +69,13 @@ app.table.tableResults.addEventListener('click', (e)=>{
         app.form.name.style.color = "black";
         app.form.price.style.color = "black";
         app.form.quantity.style.color = "black";
-        
         // Save product on Objects. Method editProduct use it.
-        app.vars.product = {
-            name:name, 
-            price:price, 
-            quantity:quantity
-        };
+        
+        // New instance of products before editing
+        const productBeforeEdit = new app.Products(name, price, quantity);
+
         // Edit inputs values
-        app.UserInterface.editAction(name, price, quantity);
+        app.UserInterface.editAction(name, price, quantity, productBeforeEdit);
     }
 });
 

@@ -1,4 +1,7 @@
-'use strict'
+'use strict';
+// Global Variables
+let container = [];
+
 // Products
 class Products{
     constructor(name, price, quantity){
@@ -7,7 +10,6 @@ class Products{
         this.quantity = quantity;
     }
 }
-
 // Form
 class MainForm{
     constructor(){
@@ -60,32 +62,29 @@ class Table{
 // Instance of Table
 const table = new Table();
 
-// Global Variables
-class Variables{
-    constructor(){
-        this.container = [];
-        this.product = {};
-    }
-}  
-// Instance of Global Variables
-const vars = new Variables();
-
 // User Interface 
 class UserInterface{
-// Save products
-    static saveProduct(){
-        localStorage.setItem('data', JSON.stringify(vars.container));
+    // Get and Set Product before edit 
+    static get productBeforeEdit(){
+        return this.product;
     }
-// Get and Show products
+    static set productBeforeEdit(value){
+        this.product = value;
+    }
+    // Save products
+    static saveProduct(){
+        localStorage.setItem('data', JSON.stringify(container));
+    }
+    // Get and Show products
     static getProduct(){
         table.tableBody.innerHTML = '';
-        vars.container = JSON.parse(localStorage.getItem('data'));
+        container = JSON.parse(localStorage.getItem('data'));
 
-        if(vars.container === null){
-            vars.container = [];
+        if(container === null){
+            container = [];
             table.tableResults.setAttribute("hidden", "hidden")
         }else{
-            for(let i of vars.container){
+            for(let i of container){
                 table.tableResults.removeAttribute("hidden");
                 table.tableBody.innerHTML+= 
             `
@@ -106,7 +105,7 @@ class UserInterface{
 // Delete products
     static deleteProduct(name, price, quantity){
         let index = 0;
-        vars.container.forEach((elem, indx)=>{
+        container.forEach((elem, indx)=>{
             if(elem.name === name){
                 if(elem.price === price){
                     if(elem.quantity === quantity){
@@ -116,35 +115,39 @@ class UserInterface{
             }
         });
 
-        vars.container.splice(index, 1);
+        container.splice(index, 1);
         this.saveProduct();
     }
 // Edit inputs values
-    static editAction(name, price, quantity){
+    static editAction(name, price, quantity, productBeforeEdit){
         form.nameValue = name;
         form.priceValue = price;
         form.quantityValue = quantity;
 
+        // Recieve Object with the product before editing
+        this.productBeforeEdit = productBeforeEdit;
+        
         form.submitValue = "Update";
         form.submit.classList.remove("add");
         form.submit.classList.add("update");
     }
-// Edit and add prodtucts with new name...
+    // Edit and add prodtucts with new name...
     static editProduct(newName, newPrice, newQuantity){
-        //  get index of edit product
-        let index = vars.container.findIndex((container)=>{
-            if(container.name === vars.product.name){
-                if(container.price === vars.product.price){
-                    if(container.quantity === vars.product.quantity){
-                        return container.quantity === vars.product.quantity
+        //  get index of edit product    
+        let index = container.findIndex((container)=>{
+            if(container.name === this.productBeforeEdit.name){
+                if(container.price === this.productBeforeEdit.price){
+                    if(container.quantity === this.productBeforeEdit.quantity){
+                        return container.quantity === this.productBeforeEdit.quantity
                     }
                 }
             }
         });
-        // Update new product
-        vars.container[index].name = newName;
-        vars.container[index].price = newPrice;
-        vars.container[index].quantity = newQuantity;
+
+        // Update container with new product
+        container[index].name = newName;
+        container[index].price = newPrice;
+        container[index].quantity = newQuantity;
 
         this.saveProduct();
         this.getProduct();
@@ -152,7 +155,7 @@ class UserInterface{
     }
 }
 // Exports
-export{Products, vars, UserInterface, form, table}
+export{Products, container, UserInterface, form, table}
 
 
 
